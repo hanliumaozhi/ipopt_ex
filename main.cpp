@@ -16,7 +16,11 @@ int main() {
 
     // Initialize solver and options
     ifopt::IpoptSolver ipopt;
+
     ipopt.SetOption("hessian_approximation", "limited-memory");
+
+    ipopt.SetOption("jacobian_approximation", "exact");
+
     ipopt.SetOption("bound_frac", 1e-8);
     ipopt.SetOption("bound_push", 1e-8);
 

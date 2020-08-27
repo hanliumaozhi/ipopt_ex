@@ -14,9 +14,9 @@ namespace ifopt {
         Eigen::VectorXd g(GetRows());
         Eigen::VectorXd x = GetVariables()->GetComponent("var_set1")->GetValues();
         // 1. for init and state constraint
-        g(0) = x(0) - 3.14159;
+        g(0) = x(0);
         g(1) = x(1);
-        g(2) = x(3);
+        g(2) = x(3) - 3.14159;
         g(3) = x(4);
 
         g(4) = x(700);
@@ -42,12 +42,12 @@ namespace ifopt {
 
         // 3. for dynamic equation
         for (int i = 0; i < 101; ++i) {
-            std::vector<DM> f_arg = {x(i * 7 + 0), x(i * 7 + 1), x(i * 7 + 2), x(i * 7 + 3), x(i * 7 + 4), x(i * 7 + 5),
+            /*std::vector<DM> f_arg = {x(i * 7 + 0), x(i * 7 + 1), x(i * 7 + 2), x(i * 7 + 3), x(i * 7 + 4), x(i * 7 + 5),
                                      9.81};
             std::vector<DM> res_1 = f1(f_arg);
-            std::vector<DM> res_2 = f2(f_arg);
-            g(i * 2 + 408 + 0) = res_1[0]->at(0);
-            g(i * 2 + 408 + 1) = res_2[0]->at(0);
+            std::vector<DM> res_2 = f2(f_arg);*/
+            g(i * 2 + 408 + 0) = 0.0;
+            g(i * 2 + 408 + 1) = 0.0;
         }
 
         return g;
@@ -78,6 +78,7 @@ namespace ifopt {
             jac_block.coeffRef(5, 701) = 1.0;
             jac_block.coeffRef(6, 703) = 1.0;
             jac_block.coeffRef(7, 704) = 1.0;
+
 
             // 2. for directCollocation, we use Trapezoidal method
             for (int i = 0; i < 100; ++i) {
@@ -113,7 +114,7 @@ namespace ifopt {
                 jac_block.coeffRef(i * 4 + 8 + 3, i * 7 + 5) = -0.05;
 
             }
-
+            /*
             // 3. for dynamic equation
             for (int i = 0; i < 101; ++i) {
                 std::vector<DM> f_arg = {x(i * 7 + 0), x(i * 7 + 1), x(i * 7 + 2), x(i * 7 + 3), x(i * 7 + 4),
@@ -139,7 +140,7 @@ namespace ifopt {
                 for (int j = 0; j < 7; ++j) {
                     jac_block.coeffRef(i * 2 + 408 + 1, 7 * i + j) = res_j2[0].get_elements()[j];
                 }
-            }
+            }*/
         }
     }
 }

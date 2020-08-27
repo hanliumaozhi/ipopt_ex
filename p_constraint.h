@@ -6,11 +6,11 @@
 #define PENDULUM_P_CONSTRAINT_H
 
 #include <ifopt/constraint_set.h>
-#include <casadi/casadi.hpp>
+//#include <casadi/casadi.hpp>
 
 
 namespace ifopt{
-using namespace casadi;
+//using namespace casadi;
 
 class p_constraint : public ifopt::ConstraintSet{
 
@@ -25,7 +25,7 @@ public:
 
 private:
     int num_constr_ = 0;
-    SX tau = SX::sym("tau");
+    /*SX tau = SX::sym("tau");
     SX phi = SX::sym("phi");
     SX theta = SX::sym("theta");
     SX dphi = SX::sym("dphi");
@@ -40,8 +40,8 @@ private:
     SX dx = SX::sym("dx");
     SX dxn = SX::sym("dxn");
     Function j_f1 = f1.jacobian();
-    Function j_f2 = f2.jacobian();
-    std::vector<DM> res_ = {0};
+    Function j_f2 = f2.jacobian();*/
+    //std::vector<DM> res_ = {0};
 
 };
 
