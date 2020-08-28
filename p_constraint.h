@@ -7,6 +7,10 @@
 
 #include <ifopt/constraint_set.h>
 //#include <casadi/casadi.hpp>
+#include "f1.h"
+#include "f2.h"
+#include "J2.h"
+#include "J1.h"
 
 
 namespace ifopt{
@@ -42,6 +46,10 @@ private:
     Function j_f1 = f1.jacobian();
     Function j_f2 = f2.jacobian();*/
     //std::vector<DM> res_ = {0};
+
+    double f_data_[8];
+    double f_ret_[7];
+    double inter_item_[321];
 
 };
 

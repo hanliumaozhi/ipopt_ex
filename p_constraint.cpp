@@ -46,6 +46,7 @@ namespace ifopt {
                                      9.81};
             std::vector<DM> res_1 = f1(f_arg);
             std::vector<DM> res_2 = f2(f_arg);*/
+
             g(i * 2 + 408 + 0) = 0.0;
             g(i * 2 + 408 + 1) = 0.0;
         }
