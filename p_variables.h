@@ -37,12 +37,12 @@ namespace ifopt {
             VecBound bounds(GetRows());
             for (int i = 0; i < 101; ++i) {
                 bounds.at(0 + 7 * i) = ifopt::Bounds(-6.28, 6.28);
-                bounds.at(1 + 7 * i) = ifopt::Bounds(-100, 100);
-                bounds.at(2 + 7 * i) = ifopt::Bounds(-100, 100);
+                bounds.at(1 + 7 * i) = ifopt::NoBound;
+                bounds.at(2 + 7 * i) = ifopt::NoBound;
                 bounds.at(3 + 7 * i) = ifopt::Bounds(-6.28, 6.28);
-                bounds.at(4 + 7 * i) = ifopt::Bounds(-100, 100);
-                bounds.at(5 + 7 * i) = ifopt::Bounds(-100, 100);
-                bounds.at(6 + 7 * i) = ifopt::Bounds(-500, 500);
+                bounds.at(4 + 7 * i) = ifopt::NoBound;
+                bounds.at(5 + 7 * i) = ifopt::NoBound;
+                bounds.at(6 + 7 * i) = ifopt::Bounds(-100, 100);
             }
 
             return bounds;

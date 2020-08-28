@@ -8,6 +8,8 @@
 #include <ifopt/problem.h>
 #include <ifopt/ipopt_solver.h>
 
+#include <fstream>
+
 int main() {
     ifopt::Problem nlp;
     nlp.AddVariableSet  (std::make_shared<ifopt::p_variables>("var_set1", 707));
@@ -17,29 +19,26 @@ int main() {
     // Initialize solver and options
     ifopt::IpoptSolver ipopt;
 
-    ipopt.SetOption("hessian_approximation", "limited-memory");
+    //ipopt.SetOption("hessian_approximation", "limited-memory");
 
-    ipopt.SetOption("jacobian_approximation", "exact");
+    //ipopt.SetOption("jacobian_approximation", "exact");
+    ipopt.SetOption("max_iter", 3000);
+    ipopt.SetOption("print_level", 5);
 
-    ipopt.SetOption("bound_frac", 1e-8);
-    ipopt.SetOption("bound_push", 1e-8);
 
-    ipopt.SetOption("tol", 1e-3);
-
-    ipopt.SetOption("dual_inf_tol", 1e-3);
-    ipopt.SetOption("constr_viol_tol", 1e-5);
-    ipopt.SetOption("compl_inf_tol", 1e-3);
-
-    ipopt.SetOption("max_iter", 1000);
-
-    ipopt.SetOption("print_timing_statistics", "yes");
-
-    ipopt.SetOption("nlp_lower_bound_inf", -1e6);
-    ipopt.SetOption("nlp_upper_bound_inf", 1e6);
 
 
     // Solve
     ipopt.Solve(nlp);
 
-    std::cout << nlp.GetOptVariables()->GetValues().transpose() << std::endl;
+    auto re_data = nlp.GetOptVariables()->GetValues();
+
+
+    std::ofstream myfile;
+    myfile.open ("data.txt");
+    for (int i = 0; i < 707; ++i) {
+        myfile << re_data[i] << std::endl;
+    }
+    myfile.close();
+
 }

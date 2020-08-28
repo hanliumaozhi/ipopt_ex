@@ -17,7 +17,7 @@ namespace ifopt {
             Eigen::VectorXd x = GetVariables()->GetComponent("var_set1")->GetValues();
             double cost = 0;
             for (int i = 0; i < 101; ++i) {
-                cost += std::abs(x((6 + i * 7)));
+                cost += x((6 + i * 7))*x((6 + i * 7));
             }
             return cost;
         };
@@ -26,11 +26,7 @@ namespace ifopt {
             if (var_set == "var_set1") {
                 Eigen::VectorXd x = GetVariables()->GetComponent("var_set1")->GetValues();
                 for (int i = 0; i < 101; ++i) {
-                    if (x((6 + i * 7)) >= 0) {
-                        jac.coeffRef(0, (6 + i * 7)) = 1;
-                    } else {
-                        jac.coeffRef(0, (6 + i * 7)) = -1;
-                    }
+                    jac.coeffRef(0, (6 + i * 7)) = 2*x((6 + i * 7));
 
                 }
             }

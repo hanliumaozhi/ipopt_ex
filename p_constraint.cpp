@@ -41,15 +41,26 @@ namespace ifopt {
         }
 
         // 3. for dynamic equation
+        double f_data_[8];
+        double f_ret_[7];
         for (int i = 0; i < 101; ++i) {
-            /*std::vector<DM> f_arg = {x(i * 7 + 0), x(i * 7 + 1), x(i * 7 + 2), x(i * 7 + 3), x(i * 7 + 4), x(i * 7 + 5),
-                                     9.81};
-            std::vector<DM> res_1 = f1(f_arg);
-            std::vector<DM> res_2 = f2(f_arg);*/
+
+            for (int j = 0; j < 7; ++j) {
+                f_data_[j] = x(i * 7 + j);
+            }
+            f_data_[7] = 9.81;
+
+            f1(f_data_, f_ret_, nullptr, nullptr, 0);
+            g(i * 2 + 408 + 0) = f_ret_[0];
+            f2(f_data_, f_ret_, nullptr, nullptr, 0);
+            g(i * 2 + 408 + 1) = f_ret_[0];
+        }
+
+        /*for (int i = 0; i < 101; ++i) {
 
             g(i * 2 + 408 + 0) = 0.0;
             g(i * 2 + 408 + 1) = 0.0;
-        }
+        }*/
 
         return g;
     };
@@ -57,7 +68,7 @@ namespace ifopt {
     ifopt::Component::VecBound p_constraint::GetBounds() const {
         VecBound b(GetRows());
         for (int i = 0; i < GetRows(); ++i) {
-            b.at(i) = ifopt::Bounds(-0.0001, 0.0001);
+            b.at(i) = ifopt::Bounds(-0.001, 0.001);
         }
         return b;
     }
@@ -115,33 +126,46 @@ namespace ifopt {
                 jac_block.coeffRef(i * 4 + 8 + 3, i * 7 + 5) = -0.05;
 
             }
-            /*
+
+            double f_data_[8];
+            double f_ret_[7];
+            double inter_item_[321];
             // 3. for dynamic equation
             for (int i = 0; i < 101; ++i) {
-                std::vector<DM> f_arg = {x(i * 7 + 0), x(i * 7 + 1), x(i * 7 + 2), x(i * 7 + 3), x(i * 7 + 4),
-                                         x(i * 7 + 5), 9.81};
-                std::vector<DM> res_1 = f1(f_arg);
-                std::vector<DM> res_2 = f2(f_arg);
-
-                //g(i*2+408+0) = res_1[0]->at(0);
-                //g(i*2+408+1) = res_2[0]->at(0);
-
-                // for f1
-                std::vector<DM> j1_arg = {x(i * 7 + 0), x(i * 7 + 1), x(i * 7 + 2), x(i * 7 + 3), x(i * 7 + 4),
-                                          x(i * 7 + 5), 9.81, res_1[0]->at(0)};
-                std::vector<DM> j2_arg = {x(i * 7 + 0), x(i * 7 + 1), x(i * 7 + 2), x(i * 7 + 3), x(i * 7 + 4),
-                                          x(i * 7 + 5), 9.81, res_2[0]->at(0)};
-                std::vector<DM> res_j1 = j_f1(j1_arg);
-                std::vector<DM> res_j2 = j_f2(j2_arg);
 
                 for (int j = 0; j < 7; ++j) {
-                    jac_block.coeffRef(i * 2 + 408 + 0, 7 * i + j) = res_j1[0].get_elements()[j];
+                    f_data_[j] = x(i * 7 + j);
                 }
+                f_data_[7] = 9.81;
 
-                for (int j = 0; j < 7; ++j) {
-                    jac_block.coeffRef(i * 2 + 408 + 1, 7 * i + j) = res_j2[0].get_elements()[j];
-                }
-            }*/
+                jac_f1(f_data_, f_ret_, nullptr, inter_item_, 0);
+
+
+                jac_block.coeffRef(i * 2 + 408 + 0, 7 * i + 0) = f_ret_[0];
+                jac_block.coeffRef(i * 2 + 408 + 0, 7 * i + 1) = f_ret_[1];
+                jac_block.coeffRef(i * 2 + 408 + 0, 7 * i + 2) = f_ret_[2];
+                jac_block.coeffRef(i * 2 + 408 + 0, 7 * i + 3) = f_ret_[3];
+                jac_block.coeffRef(i * 2 + 408 + 0, 7 * i + 4) = f_ret_[4];
+                jac_block.coeffRef(i * 2 + 408 + 0, 7 * i + 5) = 0.0;
+                jac_block.coeffRef(i * 2 + 408 + 0, 7 * i + 6) = f_ret_[5];
+                //jac_block.coeffRef(i * 2 + 408 + 0, 7 * i + 7) = f_ret_[6];
+
+
+                jac_f2(f_data_, f_ret_, nullptr, inter_item_, 0);
+
+
+                jac_block.coeffRef(i * 2 + 408 + 1, 7 * i + 0) = f_ret_[0];
+                jac_block.coeffRef(i * 2 + 408 + 1, 7 * i + 1) = f_ret_[1];
+                jac_block.coeffRef(i * 2 + 408 + 1, 7 * i + 2) = 0.0;
+                jac_block.coeffRef(i * 2 + 408 + 1, 7 * i + 3) = f_ret_[2];
+                jac_block.coeffRef(i * 2 + 408 + 1, 7 * i + 4) = f_ret_[3];
+                jac_block.coeffRef(i * 2 + 408 + 1, 7 * i + 5) = f_ret_[4];
+                jac_block.coeffRef(i * 2 + 408 + 1, 7 * i + 6) = f_ret_[5];
+                //jac_block.coeffRef(i * 2 + 408 + 1, 7 * i + 7) = f_ret_[6];
+
+
+
+            }
         }
     }
 }

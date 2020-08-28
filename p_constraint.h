@@ -21,11 +21,11 @@ class p_constraint : public ifopt::ConstraintSet{
 public:
     p_constraint(const std::string& name, int num_constr);
 
-    VectorXd GetValues() const override;
+    Eigen::VectorXd GetValues() const override;
 
     VecBound GetBounds() const override;
 
-    void FillJacobianBlock (std::string var_set, Jacobian& jac_block) const override;
+    void FillJacobianBlock (std::string var_set, Jacobian &jac_block) const override;
 
 private:
     int num_constr_ = 0;
@@ -46,10 +46,6 @@ private:
     Function j_f1 = f1.jacobian();
     Function j_f2 = f2.jacobian();*/
     //std::vector<DM> res_ = {0};
-
-    double f_data_[8];
-    double f_ret_[7];
-    double inter_item_[321];
 
 };
 
