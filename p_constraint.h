@@ -29,6 +29,7 @@ public:
 
 private:
     int num_constr_ = 0;
+    double discrete_val_ = 0.025;
     /*SX tau = SX::sym("tau");
     SX phi = SX::sym("phi");
     SX theta = SX::sym("theta");

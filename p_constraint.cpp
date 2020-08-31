@@ -27,16 +27,16 @@ namespace ifopt {
         // 2. for directCollocation, we use Trapezoidal method
         for (int i = 0; i < 100; ++i) {
             // 1. for theta dtheta
-            g(i * 4 + 8 + 0) = (x((i + 1) * 7 + 0) - x(i * 7 + 0) - 0.05 * (x((i + 1) * 7 + 1) + x(i * 7 + 1)));
+            g(i * 4 + 8 + 0) = (x((i + 1) * 7 + 0) - x(i * 7 + 0) - discrete_val_ * (x((i + 1) * 7 + 1) + x(i * 7 + 1)));
 
             // 2. for dtheta ddtheta
-            g(i * 4 + 8 + 1) = (x((i + 1) * 7 + 1) - x(i * 7 + 1) - 0.05 * (x((i + 1) * 7 + 2) + x(i * 7 + 2)));
+            g(i * 4 + 8 + 1) = (x((i + 1) * 7 + 1) - x(i * 7 + 1) - discrete_val_ * (x((i + 1) * 7 + 2) + x(i * 7 + 2)));
 
             // 3. for phi dphi
-            g(i * 4 + 8 + 2) = (x((i + 1) * 7 + 3) - x(i * 7 + 3) - 0.05 * (x((i + 1) * 7 + 4) + x(i * 7 + 4)));
+            g(i * 4 + 8 + 2) = (x((i + 1) * 7 + 3) - x(i * 7 + 3) - discrete_val_ * (x((i + 1) * 7 + 4) + x(i * 7 + 4)));
 
             // 4. for dphi ddphi
-            g(i * 4 + 8 + 3) = (x((i + 1) * 7 + 4) - x(i * 7 + 4) - 0.05 * (x((i + 1) * 7 + 5) + x(i * 7 + 5)));
+            g(i * 4 + 8 + 3) = (x((i + 1) * 7 + 4) - x(i * 7 + 4) - discrete_val_ * (x((i + 1) * 7 + 5) + x(i * 7 + 5)));
 
         }
 
@@ -98,32 +98,32 @@ namespace ifopt {
                 //g(i*4+8+0) = (x((i+1)*7+0) - x(i*7+0)-0.05*(x((i+1)*7+1) + x(i*7+1)));
                 jac_block.coeffRef(i * 4 + 8 + 0, (i + 1) * 7 + 0) = 1;
                 jac_block.coeffRef(i * 4 + 8 + 0, i * 7 + 0) = -1;
-                jac_block.coeffRef(i * 4 + 8 + 0, (i + 1) * 7 + 1) = -0.05;
-                jac_block.coeffRef(i * 4 + 8 + 0, i * 7 + 1) = -0.05;
+                jac_block.coeffRef(i * 4 + 8 + 0, (i + 1) * 7 + 1) = -discrete_val_;
+                jac_block.coeffRef(i * 4 + 8 + 0, i * 7 + 1) = -discrete_val_;
 
 
                 // 2. for dtheta ddtheta
                 //g(i*4+8+1) = (x((i+1)*7+1) - x(i*7+1)-0.05*(x((i+1)*7+2) + x(i*7+2)));
                 jac_block.coeffRef(i * 4 + 8 + 1, (i + 1) * 7 + 1) = 1;
                 jac_block.coeffRef(i * 4 + 8 + 1, i * 7 + 1) = -1;
-                jac_block.coeffRef(i * 4 + 8 + 1, (i + 1) * 7 + 2) = -0.05;
-                jac_block.coeffRef(i * 4 + 8 + 1, i * 7 + 2) = -0.05;
+                jac_block.coeffRef(i * 4 + 8 + 1, (i + 1) * 7 + 2) = -discrete_val_;
+                jac_block.coeffRef(i * 4 + 8 + 1, i * 7 + 2) = -discrete_val_;
 
                 // 3. for phi dphi
                 // g(i*4+8+2) = (x((i+1)*7+3) - x(i*7+3)-0.05*(x((i+1)*7+4) + x(i*7+4)));
 
                 jac_block.coeffRef(i * 4 + 8 + 2, (i + 1) * 7 + 3) = 1;
                 jac_block.coeffRef(i * 4 + 8 + 2, i * 7 + 3) = -1;
-                jac_block.coeffRef(i * 4 + 8 + 2, (i + 1) * 7 + 4) = -0.05;
-                jac_block.coeffRef(i * 4 + 8 + 2, i * 7 + 4) = -0.05;
+                jac_block.coeffRef(i * 4 + 8 + 2, (i + 1) * 7 + 4) = -discrete_val_;
+                jac_block.coeffRef(i * 4 + 8 + 2, i * 7 + 4) = -discrete_val_;
 
                 // 4. for dphi ddphi
                 // g(i*4+8+3) = (x((i+1)*7+4) - x(i*7+4)-0.05*(x((i+1)*7+5) + x(i*7+5)));
 
                 jac_block.coeffRef(i * 4 + 8 + 3, (i + 1) * 7 + 4) = 1;
                 jac_block.coeffRef(i * 4 + 8 + 3, i * 7 + 4) = -1;
-                jac_block.coeffRef(i * 4 + 8 + 3, (i + 1) * 7 + 5) = -0.05;
-                jac_block.coeffRef(i * 4 + 8 + 3, i * 7 + 5) = -0.05;
+                jac_block.coeffRef(i * 4 + 8 + 3, (i + 1) * 7 + 5) = -discrete_val_;
+                jac_block.coeffRef(i * 4 + 8 + 3, i * 7 + 5) = -discrete_val_ ;
 
             }
 

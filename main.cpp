@@ -21,7 +21,7 @@ int main() {
 
     //ipopt.SetOption("hessian_approximation", "limited-memory");
 
-    //ipopt.SetOption("jacobian_approximation", "exact");
+    ipopt.SetOption("jacobian_approximation", "exact");
     ipopt.SetOption("max_iter", 3000);
     ipopt.SetOption("print_level", 5);
 
@@ -38,6 +38,9 @@ int main() {
     myfile.open ("data.txt");
     for (int i = 0; i < 707; ++i) {
         myfile << re_data[i] << std::endl;
+        if(i%7 == 3){
+            std::cout<<re_data[i]<<" ";
+        }
     }
     myfile.close();
 
