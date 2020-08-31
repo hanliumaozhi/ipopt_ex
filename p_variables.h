@@ -35,7 +35,7 @@ namespace ifopt {
 
         VecBound GetBounds() const override {
             VecBound bounds(GetRows());
-            for (int i = 0; i < 101; ++i) {
+            for (int i = 0; i < 5001; ++i) {
                 bounds.at(0 + 7 * i) = ifopt::Bounds(-6.28, 6.28);
                 bounds.at(1 + 7 * i) = ifopt::NoBound;
                 bounds.at(2 + 7 * i) = ifopt::NoBound;
@@ -49,7 +49,7 @@ namespace ifopt {
         }
 
     private:
-        double x_list_[707];
+        double x_list_[35007];
         int num_var_;
 
 

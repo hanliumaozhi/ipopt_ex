@@ -16,7 +16,7 @@ namespace ifopt {
         double GetCost() const override {
             Eigen::VectorXd x = GetVariables()->GetComponent("var_set1")->GetValues();
             double cost = 0;
-            for (int i = 0; i < 101; ++i) {
+            for (int i = 0; i < 5001; ++i) {
                 cost += x((6 + i * 7))*x((6 + i * 7));
             }
             return cost;
@@ -25,7 +25,7 @@ namespace ifopt {
         void FillJacobianBlock(std::string var_set, Jacobian &jac) const override {
             if (var_set == "var_set1") {
                 Eigen::VectorXd x = GetVariables()->GetComponent("var_set1")->GetValues();
-                for (int i = 0; i < 101; ++i) {
+                for (int i = 0; i < 5001; ++i) {
                     jac.coeffRef(0, (6 + i * 7)) = 2*x((6 + i * 7));
 
                 }

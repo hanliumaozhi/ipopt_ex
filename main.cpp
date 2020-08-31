@@ -12,8 +12,8 @@
 
 int main() {
     ifopt::Problem nlp;
-    nlp.AddVariableSet  (std::make_shared<ifopt::p_variables>("var_set1", 707));
-    nlp.AddConstraintSet(std::make_shared<ifopt::p_constraint>("constraint1", 610));
+    nlp.AddVariableSet  (std::make_shared<ifopt::p_variables>("var_set1", 35007));
+    nlp.AddConstraintSet(std::make_shared<ifopt::p_constraint>("constraint1", 30010));
     nlp.AddCostSet      (std::make_shared<ifopt::p_cost>("cost1"));
 
     // Initialize solver and options
@@ -24,6 +24,7 @@ int main() {
     ipopt.SetOption("jacobian_approximation", "exact");
     ipopt.SetOption("max_iter", 3000);
     ipopt.SetOption("print_level", 5);
+    ipopt.SetOption("max_cpu_time", 1000.0);
 
 
 
@@ -36,7 +37,7 @@ int main() {
 
     std::ofstream myfile;
     myfile.open ("data.txt");
-    for (int i = 0; i < 707; ++i) {
+    for (int i = 0; i < 35007; ++i) {
         myfile << re_data[i] << std::endl;
         if(i%7 == 3){
             std::cout<<re_data[i]<<" ";

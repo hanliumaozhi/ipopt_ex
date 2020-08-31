@@ -19,13 +19,13 @@ namespace ifopt {
         g(2) = x(3) - 3.14159;
         g(3) = x(4);
 
-        g(4) = x(700);
-        g(5) = x(701);
-        g(6) = x(703);
-        g(7) = x(704);
+        g(4) = x(35000);
+        g(5) = x(35001);
+        g(6) = x(35003);
+        g(7) = x(35004);
 
         // 2. for directCollocation, we use Trapezoidal method
-        for (int i = 0; i < 100; ++i) {
+        for (int i = 0; i < 5000; ++i) {
             // 1. for theta dtheta
             g(i * 4 + 8 + 0) = (x((i + 1) * 7 + 0) - x(i * 7 + 0) - discrete_val_ * (x((i + 1) * 7 + 1) + x(i * 7 + 1)));
 
@@ -43,7 +43,7 @@ namespace ifopt {
         // 3. for dynamic equation
         double f_data_[8];
         double f_ret_[7];
-        for (int i = 0; i < 101; ++i) {
+        for (int i = 0; i < 5001; ++i) {
 
             for (int j = 0; j < 7; ++j) {
                 f_data_[j] = x(i * 7 + j);
@@ -51,9 +51,9 @@ namespace ifopt {
             f_data_[7] = 9.81;
 
             f1(f_data_, f_ret_, nullptr, nullptr, 0);
-            g(i * 2 + 408 + 0) = f_ret_[0];
+            g(i * 2 + 20008 + 0) = f_ret_[0];
             f2(f_data_, f_ret_, nullptr, nullptr, 0);
-            g(i * 2 + 408 + 1) = f_ret_[0];
+            g(i * 2 + 20008 + 1) = f_ret_[0];
         }
 
         /*for (int i = 0; i < 101; ++i) {
@@ -86,14 +86,14 @@ namespace ifopt {
             jac_block.coeffRef(2, 3) = 1.0;
             jac_block.coeffRef(3, 4) = 1.0;
 
-            jac_block.coeffRef(4, 700) = 1.0;
-            jac_block.coeffRef(5, 701) = 1.0;
-            jac_block.coeffRef(6, 703) = 1.0;
-            jac_block.coeffRef(7, 704) = 1.0;
+            jac_block.coeffRef(4, 35000) = 1.0;
+            jac_block.coeffRef(5, 35001) = 1.0;
+            jac_block.coeffRef(6, 35003) = 1.0;
+            jac_block.coeffRef(7, 35004) = 1.0;
 
 
             // 2. for directCollocation, we use Trapezoidal method
-            for (int i = 0; i < 100; ++i) {
+            for (int i = 0; i < 5000; ++i) {
                 // 1. for theta dtheta
                 //g(i*4+8+0) = (x((i+1)*7+0) - x(i*7+0)-0.05*(x((i+1)*7+1) + x(i*7+1)));
                 jac_block.coeffRef(i * 4 + 8 + 0, (i + 1) * 7 + 0) = 1;
@@ -131,7 +131,7 @@ namespace ifopt {
             double f_ret_[7];
             double inter_item_[321];
             // 3. for dynamic equation
-            for (int i = 0; i < 101; ++i) {
+            for (int i = 0; i < 5001; ++i) {
 
                 for (int j = 0; j < 7; ++j) {
                     f_data_[j] = x(i * 7 + j);
@@ -141,26 +141,26 @@ namespace ifopt {
                 jac_f1(f_data_, f_ret_, nullptr, inter_item_, 0);
 
 
-                jac_block.coeffRef(i * 2 + 408 + 0, 7 * i + 0) = f_ret_[0];
-                jac_block.coeffRef(i * 2 + 408 + 0, 7 * i + 1) = f_ret_[1];
-                jac_block.coeffRef(i * 2 + 408 + 0, 7 * i + 2) = f_ret_[2];
-                jac_block.coeffRef(i * 2 + 408 + 0, 7 * i + 3) = f_ret_[3];
-                jac_block.coeffRef(i * 2 + 408 + 0, 7 * i + 4) = f_ret_[4];
-                jac_block.coeffRef(i * 2 + 408 + 0, 7 * i + 5) = 0.0;
-                jac_block.coeffRef(i * 2 + 408 + 0, 7 * i + 6) = f_ret_[5];
+                jac_block.coeffRef(i * 2 + 20008 + 0, 7 * i + 0) = f_ret_[0];
+                jac_block.coeffRef(i * 2 + 20008 + 0, 7 * i + 1) = f_ret_[1];
+                jac_block.coeffRef(i * 2 + 20008 + 0, 7 * i + 2) = f_ret_[2];
+                jac_block.coeffRef(i * 2 + 20008 + 0, 7 * i + 3) = f_ret_[3];
+                jac_block.coeffRef(i * 2 + 20008 + 0, 7 * i + 4) = f_ret_[4];
+                jac_block.coeffRef(i * 2 + 20008 + 0, 7 * i + 5) = 0.0;
+                jac_block.coeffRef(i * 2 + 20008 + 0, 7 * i + 6) = f_ret_[5];
                 //jac_block.coeffRef(i * 2 + 408 + 0, 7 * i + 7) = f_ret_[6];
 
 
                 jac_f2(f_data_, f_ret_, nullptr, inter_item_, 0);
 
 
-                jac_block.coeffRef(i * 2 + 408 + 1, 7 * i + 0) = f_ret_[0];
-                jac_block.coeffRef(i * 2 + 408 + 1, 7 * i + 1) = f_ret_[1];
-                jac_block.coeffRef(i * 2 + 408 + 1, 7 * i + 2) = 0.0;
-                jac_block.coeffRef(i * 2 + 408 + 1, 7 * i + 3) = f_ret_[2];
-                jac_block.coeffRef(i * 2 + 408 + 1, 7 * i + 4) = f_ret_[3];
-                jac_block.coeffRef(i * 2 + 408 + 1, 7 * i + 5) = f_ret_[4];
-                jac_block.coeffRef(i * 2 + 408 + 1, 7 * i + 6) = f_ret_[5];
+                jac_block.coeffRef(i * 2 + 20008 + 1, 7 * i + 0) = f_ret_[0];
+                jac_block.coeffRef(i * 2 + 20008 + 1, 7 * i + 1) = f_ret_[1];
+                jac_block.coeffRef(i * 2 + 20008 + 1, 7 * i + 2) = 0.0;
+                jac_block.coeffRef(i * 2 + 20008 + 1, 7 * i + 3) = f_ret_[2];
+                jac_block.coeffRef(i * 2 + 20008 + 1, 7 * i + 4) = f_ret_[3];
+                jac_block.coeffRef(i * 2 + 20008 + 1, 7 * i + 5) = f_ret_[4];
+                jac_block.coeffRef(i * 2 + 20008 + 1, 7 * i + 6) = f_ret_[5];
                 //jac_block.coeffRef(i * 2 + 408 + 1, 7 * i + 7) = f_ret_[6];
 
 
